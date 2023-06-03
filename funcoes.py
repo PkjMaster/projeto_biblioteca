@@ -18,7 +18,7 @@ def lista_livro():
     for linha in lista:
         linha.strip("\n")
         lista_separada.append(linha.split("|"))
-        return lista_separada
+    return lista_separada
 
 
 def lista_usuario():
@@ -33,7 +33,7 @@ def lista_usuario():
     for linha in lista:
         linha.strip("\n")
         lista_separada.append(linha.split("|"))
-        return lista_separada
+    return lista_separada
 
 
 def lista_reserva():
@@ -48,7 +48,7 @@ def lista_reserva():
     for linha in lista:
         linha.strip("\n")
         lista_separada.append(linha.split("|"))
-        return lista_separada
+    return lista_separada
 
 
 def cadastro_livro():
