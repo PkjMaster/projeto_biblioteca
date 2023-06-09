@@ -1,1 +1,3 @@
 Codigo|Titulo|Autor|Ano_publicação|Quant_exemplares
+1|O Ladrão de Raios|2005|19
+2|É Assim que Acaba|2018|29
