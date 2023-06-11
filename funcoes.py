@@ -256,8 +256,8 @@ def criador_menu(itens, texto):  # Serve para criar o menu por meio de um dicion
             
 # função para criar a listinha de listagem:
 def criador_listar(formatacao, lista):
-    livros = ["Codigo", "Título", "Ano de publicação",
-              "Quantidade de exemplates"]
+    livros = ["Codigo", "Título", "Autor","Ano de publicação",
+              "Quantidade de exemplares"]
     usuarios = ["Codigo", "Nome", "Email", "Telefone"]
     reservas = ["Codigo", "Usuario que realizou a reserva",
                 "Livro que foi reservado", "Data da reserva", "Status"]
@@ -863,6 +863,84 @@ def menu_alterar():
             limpar()
             input(
                 f"{linha_simples}\n\tValor invalido!\n{linha_simples}\n    Pressione Enter para continuar\n{linha_simples}")
+
+def devolucao_livro(): # função de devolução de livros reservados
+    verificador=False
+    listaLivros = lista_livro()
+    listaReservas = lista_reserva()
+    listaUsuarios =lista_usuario()
+    codigos_cadastrados_livros = []
+    codigos_de_livros_vinculados_aos_usuarios = []
+    codigos_de_usuarios_com_reserva_ativa = []
+    livros_atualizados = ["Codigo|Titulo|Autor|Ano_publicação|Quant_exemplares\n"]
+    reservas_atualizadas = ["Codigo_reserva|Usuario|Livro|Data|Status\n"]
+    
+    for reserva in listaReservas: 
+        if reserva[4] == "Ativa": 
+            verificador=True
+            codigos_de_usuarios_com_reserva_ativa.append(reserva[1])
+    
+    if verificador == False:
+        input(f"{linha_simples}\n Não há reservas ativas no momento!\n(aperte enter para voltar ao menu)")         
+    
+    limpar()
+    print(f"{linha_simples}\n\t Usuarios com reservas ativas\n{linha_simples}")
+    # lista com os codigos dos usuarios que efetuaram uma reserva
+    
+    for usuario in listaUsuarios:#mostra os usuarios com reservas ativas
+        if usuario[0] in codigos_de_usuarios_com_reserva_ativa:
+            criador_listar("usuarios", usuario)
+            print(linha_simples)
+
+    codigo_usuario = input(f"""Digite o codigo do usuario que deseja devolver o livro\n\n>""").strip(" ")
+    
+    if codigo_usuario not in codigos_de_usuarios_com_reserva_ativa: #verifica se o codigo do livro digitado está cadastrado   
+        limpar()
+        input(f"{linha_simples}\n O codigo do usuário digitado não está vinculado a uma reserva!\n(aperte enter para voltar ao menu)")         
+        return
+
+    limpar()
+    print(f"{linha_simples}\n\t Livros Reservados pelo usuário\n{linha_simples}")
+    for reserva in listaReservas:# mostra os livros cadastrados para o usuario
+        for livro in listaLivros:
+            if reserva[2]==livro[0] and reserva[1]==codigo_usuario and reserva[4]=="Ativa":
+                codigos_de_livros_vinculados_aos_usuarios.append(livro[0])
+                criador_listar("livros", livro)
+                print(linha_simples)
+    
+    codigo_livro = input(f"""Digite o codigo do livro que deseja devolver  
+    
+>""").strip(" ")
+    if codigo_livro not in codigos_de_livros_vinculados_aos_usuarios: #verifica se o codigo do livro digitado está em uma reserva feita pelo usuario
+        limpar()
+        input(f"{linha_simples}\nO codigo do livro digitado não está vinculado ao usuário!\n(aperte enter para voltar ao menu)")         
+        return
+    
+    for livro in listaLivros:
+        limpar()
+        if livro[0] == codigo_livro:
+            qnt = int(livro[4]) + 1 # adiciona +1 na quantidade de exemplares
+            livro[4] = str(qnt)
+    
+        livros_atualizados.append(str("|".join(livro)+"\n")) # adiciona todos os valores atualizados em uma lista 
+    with open("livros.txt", "w", encoding="utf8") as arquivo: # joga a lista no arquivo
+        arquivo.writelines(livros_atualizados)
+
+    for reserva in listaReservas:
+        limpar()
+        # Faz a verificação se o codigo do livro e a do usuario são as mesmas digitadas pelo usuario na hora de devolver
+        # E só faz a devolução uma vez no caso de o usuario ter mais de uma reserva do mesmo livro
+        if reserva[2] == codigo_livro and reserva[1] == codigo_usuario and reserva[4]=="Ativa" and verificador==True:
+            verificador=False
+            reserva[4] = "Finalizada" # atualiza o status da reserva para Finalizada
+        reservas_atualizadas.append("|".join(reserva)+"\n") # adiciona todos os valores atualizados em uma lista
+    
+    with open("reservas.txt", "w", encoding="utf8") as arquivo:# joga a lista no arquivo
+        arquivo.writelines(reservas_atualizadas)
+    input(
+        f"{linha_simples}\n     Operação Finalizada!\n{linha_simples}\n (aperte enter para voltar ao menu)")
+    
+devolucao_livro()
 
 def criador_remover(listas, codigo, listas_atualizadas, arquivo):
         #função para remover itens dos arquivos sendo as listas = os dados do arquivo aonde se deseja retirar um item

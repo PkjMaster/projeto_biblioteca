@@ -1,4 +1,4 @@
 Codigo|Titulo|Autor|Ano_publicação|Quant_exemplares
-1|O Ladrão de Raios|Rick Riordan|2005|19
+1|O Ladrão de Raios|Rick Riordan|2005|20
 2|É Assim que Acaba|Colleen Hoover|2018|29
 3|Declínio de um homem|Osamu Dazai|2020|40
