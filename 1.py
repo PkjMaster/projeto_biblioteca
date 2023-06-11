@@ -949,26 +949,26 @@ def devolucao_livro(): # função de devolução de livros reservados
     livros = lista_livro()
     reservas = lista_reserva()
     codigos_cadastrados_livros = []
-    codigos_reservas_ativas_livros = []
-    #codigos_reservas_ativas = []
+    codigos_de_livros_com_reserva_ativa = []
+
     livros_atualizados = ["Codigo|Titulo|Autor|Ano_publicação|Quant_exemplares\n"]
     reservas_atualizadas = ["Codigo_reserva|Usuario|Livro|Data|Finalizada\n"]
     limpar()
     for reserva in reservas: 
-        if reserva[4].strip() == "Ativa": 
-            codigos_reservas_ativas_livros.append(reserva[2]) # lista com os codigos dos livros que possuem a reserva ativa
-            # codigos_reservas_ativas.append(reserva[0]) # lista com os cogidos das reservas ativas
+        if reserva[4] == "Ativa": 
+            codigos_de_livros_com_reserva_ativa.append(reserva[2]) # lista com os codigos dos livros que possuem a reserva ativa
+    
     for livro in livros:
         codigos_cadastrados_livros.append(livro[0]) # lista com os codigos dos livros cadastrados
     codigo_livro = input(f"""{linha_simples}\nDigite o codigo do livro que deseja devolver  
     
 >""").strip(" ")
-    while codigo_livro not in codigos_cadastrados_livros: #verifica se o codigo do livro digitado está cadastrado   
+    if codigo_livro not in codigos_cadastrados_livros: #verifica se o codigo do livro digitado está cadastrado   
         limpar()
         input(f"{linha_simples}\nO codigo digitado não está cadastrado!\n(aperte enter para voltar ao menu)")         
         return
     
-    while codigo_livro not in codigos_reservas_ativas_livros: # verifica se o codigo do livro está com a reserva ativa
+    if codigo_livro not in codigos_de_livros_com_reserva_ativa: # verifica se o codigo do livro está com a reserva ativa
         limpar()
         input(f"{linha_simples}\nO livro não está em situação de reserva!\n(aperte enter para voltar ao menu)")         
         return
@@ -976,7 +976,7 @@ def devolucao_livro(): # função de devolução de livros reservados
     for livro in livros:
         limpar()
         if livro[0] == codigo_livro:
-            qnt = (int(livro[4])) + 1 # adiciona +1 na quantidade de exemplares
+            qnt = int(livro[4]) + 1 # adiciona +1 na quantidade de exemplares
             livro[4] = str(qnt)
         livros_atualizados.append(str("|".join(livro)+"\n")) # adiciona todos os valores atualizados em uma lista 
     with open("livros.txt", "w", encoding="utf8") as arquivo: # joga a lista no arquivo
