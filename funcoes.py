@@ -864,6 +864,87 @@ def menu_alterar():
             input(
                 f"{linha_simples}\n\tValor invalido!\n{linha_simples}\n    Pressione Enter para continuar\n{linha_simples}")
 
+def criador_remover(listas, codigo, listas_atualizadas, arquivo):
+        #função para remover itens dos arquivos sendo as listas = os dados do arquivo aonde se deseja retirar um item
+        #codigo = O codigo do item que o usuario deseja remover
+        #listas_atualizadas: formatações para retornar os itens aos arquivos de forma que fiquem bonitos
+        #arquivo o arquivo que deseja fazer a remoção
+        listas_atualizadas_reservas = ["Codigo_reserva|Usuario|Livro|Data|Status\n"]
+        reservas = lista_reserva()
+        codigos_cadastrados=[]
+        verificador = False
+        for lista in listas:
+            codigos_cadastrados.append(lista[0]) # lista com os codigos  cadastrados
+        while codigo not in codigos_cadastrados: #verifica se o codigo digitado está cadastrado   
+            limpar()
+            input(f"{linha_simples}\nO codigo digitado não está cadastrado!\n(aperte enter para voltar ao menu)")         
+            return
+        for lista in listas:
+            if codigo in lista:
+                listas.remove(lista)
+        for lista in listas:
+            listas_atualizadas.append("|".join(lista)+"\n")
+        with open(arquivo, "w", encoding="utf8") as arquivo: # joga a lista no arquivo
+            arquivo.writelines(listas_atualizadas)
+        for reserva in reservas:
+            if codigo == reserva[1] or codigo == reserva[2]:
+                verificador = True
+                reservas.remove(reserva)
+        while verificador:
+            for reserva in reservas:
+                listas_atualizadas_reservas.append("|".join(reserva)+"\n")
+            with open("reservas.txt", "w", encoding="utf8") as arquivo: # joga a lista no arquivo
+                arquivo.writelines(listas_atualizadas_reservas)
+            verificador = False
+        limpar()
+        input(
+        f"{linha_simples}\n     Operação Finalizada!\n(aperte enter para voltar ao menu)")    
+
+def remover():
+    menu=["Livros","Usuários","Reservas"]
+    livros = lista_livro()
+    usuarios = lista_usuario()
+    reservas = lista_reserva()
+
+    listas_atualizadas_livros = ["Codigo|Titulo|Autor|Ano_publicação|Quant_exemplares\n"]
+    listas_atualizadas_reservas = ["Codigo_reserva|Usuario|Livro|Data|Status\n"]
+    listas_atualizadas_usuarios = ["Codigo|Nome|Email|Telefone\n"]
+    limpar()
+    opt = criador_menu(menu, "MENU REMOVER")
+    if opt == "1":
+        limpar()
+        print(f"{linha_simples}\n\t Livros Cadastrados\n{linha_simples}")
+        for livro in livros:
+            criador_listar("livros", livro)
+            print(linha_simples)
+        codigo_livro = input(f"""Digite o codigo do livro que deseja remover  
+    
+>""").strip(" ")
+        criador_remover(livros, codigo_livro, listas_atualizadas_livros, "livros.txt")
+
+    elif opt == "2":
+        limpar()
+        print(f"{linha_simples}\n\t Usuarios Cadastrados\n{linha_simples}")
+        for usuario in usuarios:
+            criador_listar("usuarios", usuario)
+            print(linha_simples)
+        codigo_usuario = input(f"""Digite o codigo do usuário que deseja remover  
+    
+>""").strip(" ")
+        criador_remover(usuarios, codigo_usuario, listas_atualizadas_usuarios, "usuarios.txt")
+
+    elif opt == "3":
+        limpar()
+        print(f"{linha_simples}\n\t Reservas Cadastrados\n{linha_simples}")
+        for reserva in reservas:
+            criador_listar("reservas", reserva)
+            print(linha_simples)
+        codigo_reserva = input(f"""Digite o codigo da reserva que deseja remover  
+    
+>""").strip(" ")
+        criador_remover(reservas, codigo_reserva, listas_atualizadas_reservas, "reservas.txt")
+
+
 def relatorio():
     reservas=lista_reserva()
     livros=lista_livro()
