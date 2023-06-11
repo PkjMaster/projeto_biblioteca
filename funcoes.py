@@ -253,51 +253,14 @@ def criador_menu(itens, texto):  # Serve para criar o menu por meio de um dicion
     Pressione Enter para continuar
 {linha_simples}
 """)
-
-
-def menu_pesquisar():
-    # Essas listas são utilizados para criar o menu para cada uma das opções
-    livros = ["Codigo", "Título", "Autor", "Ano"]
-    usuarios = ["Codigo", "Nome"]
-    reservas = ["Codigo", "Título", "Código do Livro", "Código do Usuário"]
-    menu_pesquisa = ["Livros", "Usuários", "Reservas"]
-    texto_menu = "Como deseja pesquisar?"
-
-    listas_livros = lista_livro()
-    listas_usuarios = lista_usuario()
-    listas_reservas = lista_reserva()
-
-    opt = criador_menu(menu_pesquisa, "Menu Pesquisar")
-
-    if opt == "1":
-        opt_livros = criador_menu(livros, texto_menu)
-        if opt_livros == "1":
-            codigo_busca = input("Digite o codigo que deseja buscar: ")
-            for livro in listas_livros:
-                if codigo_busca == livro[0]:
-                    print(linha_simples+"Livro encontrado!"+linha_simples)
-                    criador_listar(livros, livro)
-
-
-'''
-        elif opt_livros=="2":
-        elif opt_livros=="3":
-        elif opt_livros=="4":
-    elif opt=="2":
-        opt_usuarios=criador_menu(usuarios,texto_menu)
-    elif opt=="3":
-        opt_reservas=criador_menu(reservas,texto_menu)
-    elif opt=="0":
-        return'''
-
-
+            
 # função para criar a listinha de listagem:
 def criador_listar(formatacao, lista):
     livros = ["Codigo", "Título", "Ano de publicação",
               "Quantidade de exemplates"]
     usuarios = ["Codigo", "Nome", "Email", "Telefone"]
     reservas = ["Codigo", "Usuario que realizou a reserva",
-                "Código do Livro", "Data da reserva", "Status"]
+                "Livro que foi reservado", "Data da reserva", "Status"]
     lista_usuarios = lista_usuario()
     lista_livros = lista_livro()
 
@@ -322,6 +285,201 @@ def criador_listar(formatacao, lista):
         for indice_lista, item in enumerate(livros):
             print(f'{item}: {lista[indice_lista]}')
 
+def menu_pesquisar():
+    # Essas listas são utilizados para criar o menu para cada uma das opções
+    livros = ["Codigo", "Título", "Autor", "Ano"]
+    usuarios = ["Codigo", "Nome"]
+    reservas = ["Codigo da Reserva", "Data", "Código do Livro", "Código do Usuário"]
+    menu_pesquisa = ["Livros", "Usuários", "Reservas"]
+    texto_menu = "Como deseja pesquisar?"
+
+    listas_livros = lista_livro()
+    listas_usuarios = lista_usuario()
+    listas_reservas = lista_reserva()
+    while True:
+        opt = criador_menu(menu_pesquisa, "Menu Pesquisar")
+
+        if opt == "1":#livros
+            opt_livros = criador_menu(livros, texto_menu)
+            
+            if opt_livros == "1":#codigo
+                codigo_livro=False
+                codigo_busca = input("Digite o codigo que deseja buscar: ")
+                for livro in listas_livros:
+                    if codigo_busca == livro[0]:#verifica se existe algum livro com esse codigo
+                        codigo_livro=True
+                        print(linha_simples+"\n\tLivro encontrado!\n"+linha_simples)
+
+                        criador_listar("livros", livro)
+                        print(linha_simples)
+                if not codigo_livro:
+                    limpar()
+                    print(linha_simples,  "\n Não foi encontrado nenhum livro com esse codigo")
+
+
+            elif opt_livros=="2":#titulo
+                titulo=False
+                titulo_busca = input("Digite o titulo do livro que deseja buscar: ").strip(" ")
+                limpar
+                for livro in listas_livros:
+                    if titulo_busca.lower() in livro[1].lower():#verifica se existe algum livro com esse titulo
+                        if not titulo:
+                            print(linha_simples+"\n\tLivro encontrado!\n"+linha_simples)
+                        titulo=True
+                        criador_listar("livros", livro)
+                        print(linha_simples)
+
+                if not titulo:
+                    limpar()
+                    print(linha_simples,  "\n Não foi encontrado nenhum livro com esse titulo")
+
+            elif opt_livros=="3":#Autor
+                autor=False
+                autor_busca = input("Digite o autor do livro que deseja buscar: ").strip(" ")
+                limpar
+                for livro in listas_livros:
+                    if autor_busca.lower() in livro[2].lower():#verifica se existe algum livro com esse autor
+                        if not autor:
+                            print(linha_simples+"\n\tLivro encontrado!\n"+linha_simples)
+                        autor=True
+                        criador_listar("livros", livro)
+                        print(linha_simples)
+                if not autor:
+                    limpar()
+                    print(linha_simples,  "\n Não foi encontrado nenhum livro com esse autor")
+            
+            
+            elif opt_livros=="4":#ano_publicação
+                ano=False
+                ano_busca = input("Digite o autor do livro que deseja buscar: ").strip(" ")
+                limpar
+                for livro in listas_livros:
+                    if ano_busca.lower() in livro[2].lower():#verifica se existe algum livro com esse ano de publicação
+                        if not ano:
+                            print(linha_simples+"\n\tLivro encontrado!\n"+linha_simples)
+                        ano=True
+                        criador_listar("livros", livro)
+                        print(linha_simples)
+                if not autor:
+                    limpar()
+                    print(linha_simples,  "\n Não foi encontrado nenhum livro com esse ano de publicação")
+                
+        
+        elif opt=="2":#usuarios
+            opt_usuarios=criador_menu(usuarios,texto_menu)
+            if opt_usuarios == "1":#codigo
+                codigo_usuario=False
+                codigo_busca = input("Digite o codigo que deseja buscar: ")
+                for usuario in listas_usuarios:
+                    if codigo_busca == usuario[0]:#verifica se existe algum usuário com esse codigo
+                        codigo_usuario=True
+                        print(linha_simples+"\n\tUsuário encontrado!\n"+linha_simples)
+
+                        criador_listar("usuarios", usuario)
+                        print(linha_simples)
+                if not codigo_usuario:
+                    limpar()
+                    print(linha_simples,  "\n Não foi encontrado nenhum usuário com esse codigo")
+
+
+            elif opt_usuarios=="2":#nome
+                nome=False
+                nome_busca = input("Digite o nome do usuário que deseja buscar: ").strip(" ")
+                limpar
+                for usuario in listas_usuarios:
+                    if nome_busca.lower() in usuario[1].lower():#verifica se existe algum usuario com esse nome
+                        if not nome:
+                            print(linha_simples+"\n\tUsuário encontrado!\n"+linha_simples)
+                        nome=True
+                        criador_listar("usuarios", usuario)
+                        print(linha_simples)
+                if not nome:
+                    limpar()
+                    print(linha_simples,  "\n Não foi encontrado nenhum usuário com esse nome")
+            
+        if opt == "3":#reservas
+            opt_reservas = criador_menu(reservas, texto_menu)
+            
+            if opt_reservas == "1":#codigo da reserva
+                codigo_reserva=False
+                codigo_busca = input("Digite o codigo da reserva que deseja buscar: ")
+                for reserva in listas_reservas:
+                    if codigo_busca == reserva[0]:#verifica se existe alguma reserva com esse codigo
+                        codigo_reserva=True
+                        print(linha_simples+"\n\tReserva encontrada!\n"+linha_simples)
+
+                        criador_listar("reservas", reserva)
+                        print(linha_simples)
+                if not codigo_reserva:
+                    limpar()
+                    print(linha_simples,  "\n Não foi encontrada nenhuma reserva com esse codigo")
+
+
+            elif opt_reservas=="2":#data
+                data=False
+                data_busca = input("Digite a data da reserva que deseja buscar: ").strip(" ")
+                limpar()
+                for reserva in listas_reservas:
+                    if data_busca == reserva[3]:#verifica se existe alguma reserva com essa data
+                        if not data:
+                            print(linha_simples+"\n\tReserva encontrada!\n"+linha_simples)
+                        data=True
+                        criador_listar("reservas", reserva)
+                        print(linha_simples)
+                if not data:
+                    limpar()
+                    print(linha_simples,  "\n Não foi encontrado nenhuma reserva com essa data")
+
+            elif opt_reservas=="3":#codigo do livro
+                codigo_livro=False
+                livro_busca = input("Digite o codigo do livro reservado que deseja buscar: ").strip(" ")
+                limpar()
+                for reserva in listas_reservas:
+                    if livro_busca == reserva[2]:#verifica se existe alguma reserva com o codigo digitado
+                        if not codigo_livro:
+                            print(linha_simples+"\n\tReserva encontrado!\n"+linha_simples)
+                        codigo_livro=True
+                        criador_listar("reservas", reserva)
+                        print(linha_simples)
+                if not codigo_livro:
+                    limpar()
+                    print(linha_simples,  "\n Não foi encontrado nenhuma reserva com esse codigo")
+            
+            
+            elif opt_reservas=="4":#codigo do usuario
+                codigo_usuario=False
+                usuario_busca = input("Digite o codigo do usuário reservado que deseja buscar: ").strip(" ")
+                limpar()
+                for reserva in listas_reservas:
+                    if usuario_busca == reserva[1]:#verifica se existe alguma reserva com o codigo digitado
+                        if not codigo_usuario:
+                            print(linha_simples+"\n\tReserva encontrado!\n"+linha_simples)
+                        codigo_usuario=True
+                        criador_listar("reservas", reserva)
+                        print(linha_simples)
+                if not codigo_usuario:
+                    limpar()
+                    print(linha_simples,  "\n Não foi encontrado nenhuma reserva com esse codigo")
+                
+        elif opt=="0":
+            return
+        
+        resposta = input(
+            f"Deseja realizar outra pesquisa (sim ou não)?\n>").strip().lower()
+        try:
+            if resposta[0] == "n":
+                limpar()
+                input(
+                    f"{linha_simples} \n\tOperação Finalizada!\n{linha_simples}\n    Pressione Enter para continuar\n{linha_simples}")
+                return
+            elif resposta[0] != "s":
+                limpar()
+                input(
+                    f"{linha_simples}\n\tValor invalido!\n{linha_simples}\n    Pressione Enter para continuar\n{linha_simples}")
+        except IndexError:
+            limpar()
+            input(
+                f"{linha_simples}\n\tOpção invalida!\n{linha_simples}\n    Pressione Enter para continuar\n{linha_simples}")
 
 def menu_listagem():  # função de listagem dos dados
     # listas para formatar as listas de cada tipo de listagem:
@@ -440,7 +598,7 @@ def menu_listagem():  # função de listagem dos dados
 
 def menu_alterar():
     lista = ["Usuários", "Livros", "Reservas"]
-    menu_livros = ["Título", "Ano de publicação", "Quantidade de exemplates"]
+    menu_livros = ["Título","Autor", "Ano de publicação","Quantidade de Exemplares"]
     menu_usuarios = ["Nome", "Email", "Telefone"]
     menu_reservas = ["Data da reserva", "Status"]
     listausuarios = lista_usuario()
@@ -551,12 +709,28 @@ def menu_alterar():
                         while ano_novo.isnumeric() == False and len(ano_novo) != 4:
                             limpar()
                             print(
-                                linha_composta, f"Valor invalido!\n{linha_simples}Use o seguinte modelo: YYYY\n")
+                                linha_composta, f"Valor invalido!\n{linha_simples}Use o seguinte modelo: YYYY\n{linha_simples}")
                             ano_novo = input(
                                 "Coloque o ano que o livro foi publicado: ").strip(" ")
                         for livro in listalivros:
                             if cod_livro == livro[0]:
                                 livro[3] = ano_novo
+                        # Traz para formatação normal
+                        livros_editados.append("|".join(livro))
+                    
+                    elif opt_livro == "4":  # quantidade Exemplares
+                        limpar()
+                        quantidade_novo = input(
+                            f"{linha_simples}\n\t\tEscreva a nova quantidade de exemplares: ").strip(" ")
+                        while quantidade_novo.isnumeric() == False:
+                            limpar()
+                            print(
+                                linha_composta, f"Valor invalido!\n{linha_simples}Utilize somente números\n{linha_simples}")
+                            quantidade_novo = input(
+                                "Escreva a nova quantidade de exemplares: ").strip(" ")
+                        for livro in listalivros:
+                            if cod_livro == livro[0]:
+                                livro[4] = quantidade_novo
                         # Traz para formatação normal
                         livros_editados.append("|".join(livro))
 
@@ -689,3 +863,79 @@ def menu_alterar():
             limpar()
             input(
                 f"{linha_simples}\n\tValor invalido!\n{linha_simples}\n    Pressione Enter para continuar\n{linha_simples}")
+
+def relatorio():
+    reservas=lista_reserva()
+    livros=lista_livro()
+    usuarios=lista_usuario()
+    codigos_livros=[]
+    codigos_usuarios=[]
+    total_de_reservas=len(reservas)#conta a quantidade total de reservas
+    reservas_ativas=0
+    reservas_finalizadas=0
+    quantidade_livros={}
+    quantidade_usuarios={}
+    limpar()
+    for reserva in reservas:
+        
+        codigos_livros.append(reserva[2])#adiciona os codigos dos livros que efetuaram uma reserva
+        codigos_usuarios.append(reserva[1])#adiciona os codigos dos usuarios que efetuaram uma reserva
+        
+        if reserva[4] == "Ativa":#conta a quantidade de reservas ativas
+            reservas_ativas+=1
+        
+        elif reserva[4] == "Finalizada":#conta a quantidade de reservas finalizadas
+            reservas_finalizadas+=1
+    
+    for livro in livros:# Conta quantas vezes cada livro foi reservado pela quantidade de vezes que o codigo apareceu
+        quantidade_livros[livro[0]]=codigos_livros.count(livro[0])
+            
+
+        
+    for usuario in usuarios:# Conta quantas vezes cada usuario efetuou uma reserva pela quantidade de vezes que o codigo apareceu
+        quantidade_usuarios[usuario[0]]=codigos_usuarios.count(usuario[0])
+        
+        
+    texto=f'''{linha_simples+10*"-"}\n
+    Quantidade de vezes que cada livro foi reservado:\n
+{linha_simples+10*"-"}'''
+    
+    for livro in livros:
+        
+        for cod_livro,quantidade in quantidade_livros.items():
+            if cod_livro==livro[0]:
+                texto+=f"""
+O livro: {livro[1]}
+Com o código: {cod_livro}
+Foi reservado o total de: {quantidade} vezes
+{linha_simples+10*"-"}"""
+
+    texto+=f'''\n
+    Quantidade reservas efetuadas por usuario:\n
+{linha_simples+10*"-"}'''
+
+    for usuario in usuarios:
+        
+        for cod_usuario,quantidade in quantidade_usuarios.items():
+            if cod_usuario==usuario[0]:
+                texto+=f"""
+O usuário: {usuario[1]}
+Com o código: {cod_usuario}
+Efetuou reservas o total de: {quantidade} vezes
+{linha_simples+10*"-"}"""
+    
+    texto+=f'''
+
+    Dado gerais sobre as reservas:
+
+{linha_simples+10*"-"}
+A quantidade total de reservas foi: {total_de_reservas}
+Sendo a quantidade de ativas de: {reservas_ativas}
+E a quantidade de finalizadas de: {reservas_finalizadas}
+'''
+    
+    input(texto+f"""{linha_simples+10*"-"} 
+        Operação Finalizada!
+{linha_simples+10*"-"}
+    Pressione Enter para continuar
+{linha_simples+10*"-"}""")

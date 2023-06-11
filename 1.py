@@ -359,3 +359,34 @@ def listagem(): #função de listagem dos dados
         except IndexError:
             limpar()
             input(f"{linha}\n\tValor invalido!\n{linha}\n    Pressione Enter para continuar\n{linha}")
+
+def relatorio():
+    reservas=lista_reserva()
+    livros=lista_livro()
+    usuarios=lista_usuario()
+    codigos_livros=[]
+    codigos_usuarios=[]
+    total_de_reservas=len(reservas)#conta a quantidade total de reservas
+    reservas_ativas=0
+    reservas_finalizadas=0
+    quantidade_livros={}
+    for reserva in reservas:
+        
+        codigos_livros.append(reserva[2])#adiciona os codigos dos livros que efetuaram uma reserva
+        codigos_usuarios.append(reserva[1])#adiciona os codigos dos usuarios que efetuaram uma reserva
+        
+        if reserva[4] == "Ativa":#conta a quantidade de reservas ativas
+            reservas_ativas+=1
+        
+        elif reserva[4] == "Finalizada":#conta a quantidade de reservas finalizadas
+            reservas_finalizadas+=1
+    
+    for livro in livros:
+        if livro[0] in codigos_livros:
+            if livro[0] in quantidade_livros.keys():
+                quantidade_livros.update(livro[0],(quantidade_livros[livro[0]]+1))
+            else:
+                quantidade_livros[livro[0]]=1
+    
+    print(quantidade_livros)
+relatorio()
