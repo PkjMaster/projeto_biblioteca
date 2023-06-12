@@ -846,6 +846,9 @@ def menu_alterar():
                                         f"Deseja mudar o estado da reserva para finalizada?\n>").strip().lower()
                                     try:
                                         if resposta[0] == "s":
+                                            for livro in listalivros:
+                                                if livro[0] == reserva[2]:
+                                                    livro[4]=str(int(livro[4])+1)
                                             limpar()
                                             input(
                                                 f"{linha_simples} \n\tOperação Finalizada!\n{linha_simples}\n    Pressione Enter para continuar\n{linha_simples}")
@@ -867,9 +870,14 @@ def menu_alterar():
                                         f"Deseja mudar o estado da reserva para ativa?\n>").strip().lower()
                                     try:
                                         if resposta[0] == "s":
+                                            for livro in listalivros:
+                                                if livro[0] == reserva[2]:
+                                                    livro[4]=str(int(livro[4])-1)
                                             limpar()
                                             input(
                                                 f"{linha_simples} \n\tOperação Finalizada!\n{linha_simples}\n    Pressione Enter para continuar\n{linha_simples}")
+                                                # Traz para formatação normal
+                                            
                                             reserva[4] = "Ativa"
 
                                         elif resposta[0] != "n":
@@ -884,15 +892,21 @@ def menu_alterar():
                                             f"{linha_simples}\n\tValor invalido!\n{linha_simples}\n    Pressione Enter para continuar\n{linha_simples}")
                                 # Traz para formatação normal
                                 reservas_editadas.append("|".join(reserva)+"\n")
-
+                                livros_editados.append("|".join(livro)+"\n")
                     elif opt_reserva == "0":
                         pass
 
-                    if len(reservas_editadas) > 1:
+                    if len(reservas_editadas) > 1 :
                         with open("reservas.txt", "w", encoding="utf8") as arquivo:
                             # Atualiza o valor das reservas
                             arquivo.writelines(reservas_editadas)
+                    if len(livros_editados)>1:
+                        with open("livros.txt", "w", encoding="utf8") as arquivo:
+                            # Atualiza o valor dos livros
+                            arquivo.writelines(livros_editados)
+
             else:
+
                 limpar()
                 print(linha_simples,  "\n Não há reservas salvas")
 
