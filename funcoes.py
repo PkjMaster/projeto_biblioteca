@@ -646,8 +646,8 @@ def menu_alterar():
                         for usuario in listausuarios:
                             if cod_usuario == usuario[0]:
                                 usuario[1] = nome_novo
-                        # Traz para formatação normal
-                        usuarios_editados.append("|".join(usuario))
+                            # Traz para formatação normal
+                            usuarios_editados.append("|".join(usuario))
 
                     elif opt_usuario == "2":  # email
                         email_novo = input(
@@ -655,8 +655,8 @@ def menu_alterar():
                         for usuario in listausuarios:
                             if cod_usuario == usuario[0]:
                                 usuario[2] = email_novo
-                        # Traz para formatação normal
-                        usuarios_editados.append("|".join(usuario))
+                            # Traz para formatação normal
+                            usuarios_editados.append("|".join(usuario))
 
                     elif opt_usuario == "3":  # telefone
                         tel_novo = input(
@@ -664,8 +664,8 @@ def menu_alterar():
                         for usuario in listausuarios:
                             if cod_usuario == usuario[0]:
                                 usuario[3] = tel_novo
-                        # Traz para formatação normal
-                        usuarios_editados.append("|".join(usuario))
+                            # Traz para formatação normal
+                            usuarios_editados.append("|".join(usuario))
 
                     elif opt_usuario == "0":
                         pass
@@ -701,8 +701,8 @@ def menu_alterar():
                         for livro in listalivros:
                             if cod_livro == livro[0]:
                                 livro[1] = titulo_novo
-                        # Traz para formatação normal
-                        livros_editados.append("|".join(livro))
+                            # Traz para formatação normal
+                            livros_editados.append("|".join(livro))
 
                     elif opt_livro == "2":  # autor
                         limpar()
@@ -711,8 +711,8 @@ def menu_alterar():
                         for livro in listalivros:
                             if cod_livro == livro[0]:
                                 livro[2] = autor_novo
-                        # Traz para formatação normal
-                        livros_editados.append("|".join(livro))
+                            # Traz para formatação normal
+                            livros_editados.append("|".join(livro))
 
                     elif opt_livro == "3":  # ano_pub
                         limpar()
@@ -727,8 +727,8 @@ def menu_alterar():
                         for livro in listalivros:
                             if cod_livro == livro[0]:
                                 livro[3] = ano_novo
-                        # Traz para formatação normal
-                        livros_editados.append("|".join(livro))
+                            # Traz para formatação normal
+                            livros_editados.append("|".join(livro))
                     
                     elif opt_livro == "4":  # quantidade Exemplares
                         limpar()
@@ -743,15 +743,15 @@ def menu_alterar():
                         for livro in listalivros:
                             if cod_livro == livro[0]:
                                 livro[4] = quantidade_novo
-                        # Traz para formatação normal
-                        livros_editados.append("|".join(livro))
+                            # Traz para formatação normal
+                            livros_editados.append("|".join(livro))
 
                     elif opt_livro == "0":
                         pass
 
                     if len(livros_editados) > 1:
                         with open("livros.txt", "w", encoding="utf8") as arquivo:
-                            # Atualiza o valor do usuário
+                            # Atualiza o valor dos livros
                             arquivo.writelines(livros_editados)
                 else:
                     limpar()
@@ -792,8 +792,8 @@ def menu_alterar():
                         for reserva in listareservas:
                             if cod_reserva == reserva[0]:
                                 reserva[1] = data_nova
-                        # Traz para formatação normal
-                        reservas_editadas.append("|".join(reserva))
+                            # Traz para formatação normal
+                            reservas_editadas.append("|".join(reserva))
 
                     elif opt_reserva == "2":  # Status
                         for reserva in listareservas:
