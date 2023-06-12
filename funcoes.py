@@ -15,11 +15,15 @@ def lista_livro():
     # lista=[[codigo,titulo,autor,ano,exemplares],[codigo,titulo,autor,ano,exemplares],[...]]
 
     lista_separada = []
-    with open("livros.txt", "r", encoding="utf8") as arquivo:
+    with open("livros.txt", "r+", encoding="utf8") as arquivo:
         lista = arquivo.readlines()
+    if len(lista)==0:
+        with open("livros.txt", "w+", encoding="utf8") as arquivo:
+            arquivo.write("Codigo|Titulo|Autor|Ano_publicação|Quant_exemplares\n")
     for linha in lista:
-        linha = linha.strip("\n")
-        lista_separada.append(linha.split("|"))
+        if len(linha)>0:
+            linha = linha.strip("\n")
+            lista_separada.append(linha.split("|"))
     lista_separada.pop(0)  # Remove o modelo visual
     return lista_separada
 
@@ -30,11 +34,15 @@ def lista_usuario():
     # lista=[[codigo,nome],[codigo,nome],[...]]
 
     lista_separada = []
-    with open("usuarios.txt", "r", encoding="utf8") as arquivo:
+    with open("usuarios.txt", "r+", encoding="utf8") as arquivo:
         lista = arquivo.readlines()
+    if len(lista)==0:
+        with open("usuarios.txt", "w+", encoding="utf8") as arquivo:
+            arquivo.write("Codigo|Nome|Email|Telefone\n")
     for linha in lista:
-        linha = linha.strip("\n")
-        lista_separada.append(linha.split("|"))
+        if len(linha)>0:
+            linha = linha.strip("\n")
+            lista_separada.append(linha.split("|"))
     lista_separada.pop(0)  # Remove o modelo visual
     return lista_separada
 
@@ -46,11 +54,15 @@ def lista_reserva():
     # lista=[[codigo,usuario,livro,data,status],[codigo,usuario,livro,data,status],[...]]
 
     lista_separada = []
-    with open("reservas.txt", "r", encoding="utf8") as arquivo:
+    with open("reservas.txt", "r+", encoding="utf8") as arquivo:
         lista = arquivo.readlines()
+    if len(lista)==0:
+        with open("reservas.txt", "w+", encoding="utf8") as arquivo:
+            arquivo.write("Codigo_reserva|Usuario|Livro|Data|Status\n")
     for linha in lista:
-        linha = linha.strip("\n")
-        lista_separada.append(linha.split("|"))
+        if len(linha)>0:
+            linha = linha.strip("\n")
+            lista_separada.append(linha.split("|"))
     lista_separada.pop(0)  # Remove o modelo visual
     return lista_separada
 
@@ -267,6 +279,10 @@ def criador_menu(itens, texto):  # Serve para criar o menu por meio de um dicion
 """)
             
 # função para criar a listinha de listagem:
+# Essa funçao recebe a formatação desejada em string e a lista na qual os dados pertencem
+# De forma que imprimam de acordo o modelo
+#Codigo: 1
+# Nome: pedro
 def criador_listar(formatacao, lista):
     livros = ["Codigo", "Título", "Autor","Ano de publicação",
               "Quantidade de exemplares"]
@@ -277,15 +293,18 @@ def criador_listar(formatacao, lista):
     lista_livros = lista_livro()
 
     if formatacao == "reservas":  # Verifica se a formatação escolhida foi reserva pq tem q colocar o nome no lugar do codigo de livro e usuario
+        
+        #pega a posição da formatação que é a mesma posição na lista real  para que quando for mostrar na tela
+        #mostre o dado junto com oque ele é como mostrado no começo da função
         for indice_lista, item in enumerate(reservas):
             if indice_lista == 1:
                 for usuario in lista_usuarios:
                     if usuario[0] == lista[1]:
-                        print(f'{item}: {usuario[1]}')
+                        print(f'{item}: {usuario[1]}')#imprime o nome do usuario
             elif indice_lista == 2:
                 for livro in lista_livros:
                     if livro[0] == lista[2]:
-                        print(f'{item}: {livro[1]}')
+                        print(f'{item}: {livro[1]}')#imprime o nome do livro escolhido
                         break
             else:
                 print(f'{item}: {lista[indice_lista]}')
@@ -300,12 +319,13 @@ def criador_listar(formatacao, lista):
 
 def menu_pesquisar():
     # Essas listas são utilizados para criar o menu para cada uma das opções
+    
+    menu_pesquisa = ["Livros", "Usuários", "Reservas"]# itens do menu principal
+
     livros = ["Codigo", "Título", "Autor", "Ano"]
     usuarios = ["Codigo", "Nome"]
     reservas = ["Codigo da Reserva", "Data", "Código do Livro", "Código do Usuário"]
-    menu_pesquisa = ["Livros", "Usuários", "Reservas"]
     texto_menu = "Como deseja pesquisar?"
-    linha_simples="-"*45
     listas_livros = lista_livro()
     listas_usuarios = lista_usuario()
     listas_reservas = lista_reserva()
@@ -394,7 +414,7 @@ def menu_pesquisar():
                         break
                 if not codigo_usuario:
                     limpar()
-                    print(f"{linha_simples}\n Não foi encontrado nenhum usuário com esse codigo")
+                    print(f"{linha_simples}\n Não foi encontrado nenhum usuário com esse codigo\n{linha_simples}")
 
 
             elif opt_usuarios=="2":#nome
@@ -480,7 +500,7 @@ def menu_pesquisar():
             return
         
         resposta = input(
-            f"{linha_simples}\n  Deseja realizar outra pesquisa (sim ou não)?\n>").strip().lower()
+            f"\n Deseja realizar outra pesquisa (sim ou não)?\n\n>").strip().lower()
         try:
             if resposta[0] == "n":
                 limpar()
@@ -638,10 +658,10 @@ def menu_alterar():
     listareservas = lista_reserva()
 
     while True:
-        usuarios_editados = ["Codigo|Nome|Email|Telefone"]
+        usuarios_editados = ["Codigo|Nome|Email|Telefone\n"]
         livros_editados = [
-            "Codigo|Titulo|Autor|Ano_publicação|Quant_exemplares"]
-        reservas_editadas = ["Codigo_reserva|Usuario|Livro|Data|Status"]
+            "Codigo|Titulo|Autor|Ano_publicação|Quant_exemplares\n"]
+        reservas_editadas = ["Codigo_reserva|Usuario|Livro|Data|Status\n"]
         codigos = []
         limpar()
 # menu para o usuario digitar a opção escolhida:
@@ -668,7 +688,7 @@ def menu_alterar():
                             if cod_usuario == usuario[0]:
                                 usuario[1] = nome_novo
                             # Traz para formatação normal
-                            usuarios_editados.append("|".join(usuario))
+                            usuarios_editados.append("|".join(usuario)+"\n")
 
                     elif opt_usuario == "2":  # email
                         email_novo = input(
@@ -677,7 +697,7 @@ def menu_alterar():
                             if cod_usuario == usuario[0]:
                                 usuario[2] = email_novo
                             # Traz para formatação normal
-                            usuarios_editados.append("|".join(usuario))
+                            usuarios_editados.append("|".join(usuario)+"\n")
 
                     elif opt_usuario == "3":  # telefone
                         tel_novo = input(
@@ -686,7 +706,7 @@ def menu_alterar():
                             if cod_usuario == usuario[0]:
                                 usuario[3] = tel_novo
                             # Traz para formatação normal
-                            usuarios_editados.append("|".join(usuario))
+                            usuarios_editados.append("|".join(usuario)+"\n")
 
                     elif opt_usuario == "0":
                         pass
@@ -723,7 +743,7 @@ def menu_alterar():
                             if cod_livro == livro[0]:
                                 livro[1] = titulo_novo
                             # Traz para formatação normal
-                            livros_editados.append("|".join(livro))
+                            livros_editados.append("|".join(livro)+"\n")
 
                     elif opt_livro == "2":  # autor
                         limpar()
@@ -733,7 +753,7 @@ def menu_alterar():
                             if cod_livro == livro[0]:
                                 livro[2] = autor_novo
                             # Traz para formatação normal
-                            livros_editados.append("|".join(livro))
+                            livros_editados.append("|".join(livro)+"\n")
 
                     elif opt_livro == "3":  # ano_pub
                         limpar()
@@ -749,7 +769,7 @@ def menu_alterar():
                             if cod_livro == livro[0]:
                                 livro[3] = ano_novo
                             # Traz para formatação normal
-                            livros_editados.append("|".join(livro))
+                            livros_editados.append("|".join(livro)+"\n")
                     
                     elif opt_livro == "4":  # quantidade Exemplares
                         limpar()
@@ -765,7 +785,7 @@ def menu_alterar():
                             if cod_livro == livro[0]:
                                 livro[4] = quantidade_novo
                             # Traz para formatação normal
-                            livros_editados.append("|".join(livro))
+                            livros_editados.append("|".join(livro)+"\n")
 
                     elif opt_livro == "0":
                         pass
@@ -814,7 +834,7 @@ def menu_alterar():
                             if cod_reserva == reserva[0]:
                                 reserva[1] = data_nova
                             # Traz para formatação normal
-                            reservas_editadas.append("|".join(reserva))
+                            reservas_editadas.append("|".join(reserva)+"\n")
 
                     elif opt_reserva == "2":  # Status
                         for reserva in listareservas:
@@ -863,7 +883,7 @@ def menu_alterar():
                                         input(
                                             f"{linha_simples}\n\tValor invalido!\n{linha_simples}\n    Pressione Enter para continuar\n{linha_simples}")
                                 # Traz para formatação normal
-                                reservas_editadas.append("|".join(livro))
+                                reservas_editadas.append("|".join(livro)+"\n")
 
                     elif opt_reserva == "0":
                         pass
@@ -976,7 +996,7 @@ def criador_remover(listas, codigo, listas_atualizadas, arquivo):
         #função para remover itens dos arquivos sendo as listas = os dados do arquivo aonde se deseja retirar um item
         #codigo = O codigo do item que o usuario deseja remover
         #listas_atualizadas: formatações para retornar os itens aos arquivos de forma que fiquem bonitos
-        #arquivo o arquivo que deseja fazer a remoção
+        #arquivo = o arquivo que deseja fazer a remoção
         listas_atualizadas_reservas = ["Codigo_reserva|Usuario|Livro|Data|Status\n"]
         reservas = lista_reserva()
         codigos_cadastrados=[]
@@ -992,19 +1012,22 @@ def criador_remover(listas, codigo, listas_atualizadas, arquivo):
                 listas.remove(lista)
         for lista in listas:
             listas_atualizadas.append("|".join(lista)+"\n")
-        with open(arquivo, "w", encoding="utf8") as arquivo: # joga a lista no arquivo
-            arquivo.writelines(listas_atualizadas)
+        with open(arquivo, "w", encoding="utf8") as arquivomudar: # joga a lista no arquivo
+            arquivomudar.writelines(listas_atualizadas)
         for reserva in reservas:
-            if codigo == reserva[1] or codigo == reserva[2]:
+            if codigo == reserva[1] and arquivo=="usuarios.txt":
                 verificador = True
                 reservas.remove(reserva)
-        while verificador:
+            elif codigo == reserva[2] and arquivo == "livros.txt":
+                verificador = True
+                reservas.remove(reserva)
+        if verificador:
             for reserva in reservas:
                 listas_atualizadas_reservas.append("|".join(reserva)+"\n")
             with open("reservas.txt", "w", encoding="utf8") as arquivo: # joga a lista no arquivo
                 arquivo.writelines(listas_atualizadas_reservas)
-            verificador = False
-        limpar()
+            
+        '''limpar()'''
         input(
         f"{linha_simples}\n     Operação Finalizada!\n{linha_simples}\n  Pressione qualquer botão para voltar ao menu\n{linha_simples}")    
 
@@ -1018,6 +1041,41 @@ def remover():
     listas_atualizadas_reservas = ["Codigo_reserva|Usuario|Livro|Data|Status\n"]
     listas_atualizadas_usuarios = ["Codigo|Nome|Email|Telefone\n"]
     limpar()
+    #verifica se tem usuarios cadastrados
+    if len(usuarios)==0:
+        input(f"""{linha_simples}
+    ERRO: NENHUM USUÁRIO CADASTRADO
+{linha_simples}             
+    Não foi possivel fazer a operação
+{linha_simples}
+  Aperte qualquer botão para voltar ao menu
+{linha_simples}       
+""")    
+        return
+    #verifica se tem livros cadastrados
+    elif len(livros)==0:
+        input(f"""{linha_simples}
+    ERRO: NENHUM LIVRO CADASTRADO
+{linha_simples}             
+    Não foi possivel fazer a operação
+{linha_simples}
+  Aperte qualquer botão para voltar ao menu
+{linha_simples}       
+""")    
+        return  
+    
+    #verifica se tem reservas efetuadas
+    elif len(reservas)==0:
+        input(f"""{linha_simples}
+    ERRO: NENHUMA RESERVA CADASTRADA
+{linha_simples}             
+    Não foi possivel fazer a operação
+{linha_simples}
+  Aperte qualquer botão para voltar ao menu
+{linha_simples}       
+""")    
+        return
+    
     opt = criador_menu(menu, "MENU REMOVER")
     if opt == "1":
         limpar()
