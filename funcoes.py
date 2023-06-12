@@ -762,7 +762,7 @@ def menu_alterar():
                         while ano_novo.isnumeric() == False and len(ano_novo) != 4:
                             limpar()
                             print(
-                                f"{linha_simples}\nValor invalido!\n{linha_simples}Use o seguinte modelo: YYYY\n{linha_simples}")
+                                f"{linha_simples}\n\tValor invalido!\n{linha_simples}\nUse o seguinte modelo: YYYY\n{linha_simples}")
                             ano_novo = input(
                                 "Coloque o ano que o livro foi publicado: ").strip(" ")
                         for livro in listalivros:
@@ -778,7 +778,7 @@ def menu_alterar():
                         while quantidade_novo.isnumeric() == False:
                             limpar()
                             print(
-                                f"{linha_simples}\nValor invalido!\n{linha_simples}Utilize somente números\n{linha_simples}")
+                                f"{linha_simples}\n\tValor invalido!\n{linha_simples}\nUtilize somente números\n{linha_simples}")
                             quantidade_novo = input(
                                 "Escreva a nova quantidade de exemplares: ").strip(" ")
                         for livro in listalivros:
@@ -883,7 +883,7 @@ def menu_alterar():
                                         input(
                                             f"{linha_simples}\n\tValor invalido!\n{linha_simples}\n    Pressione Enter para continuar\n{linha_simples}")
                                 # Traz para formatação normal
-                                reservas_editadas.append("|".join(livro)+"\n")
+                                reservas_editadas.append("|".join(reserva)+"\n")
 
                     elif opt_reserva == "0":
                         pass
