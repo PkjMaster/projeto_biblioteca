@@ -1,4 +1,9 @@
 Codigo|Titulo|Autor|Ano_publicação|Quant_exemplares
 1|O Ladrão de Raios|Rick Riordan|2005|20
-2|É Assim que Acaba|Colleen Hoover|2018|29
-3|Declínio de um homem|Osamu Dazai|2020|40
+2|É Assim que Acaba|Colleen Hoover|2018|30
+3|Declínio de um homem|Osamu Dazai|2020|39
+4|O Hobbit|J.R.R. Tolkien|1937|44
+5|O Pequeno Príncipe|Antoine de Saint-Exupéry|1943|22
+6|A Menina que Roubava Livros|Markus Zusak|2005|12
+7|Orgulho e Preconceito|Jane Austen|1813|17
+8|Dom Quixote|Miguel de Cervantes|1605|42

@@ -1,3 +1,7 @@
 Codigo|Nome|Email|Telefone
 1|Pedro|emailbom@gmail.com|779192031
-2|Flavin do pneu|emailruim@gmail.com|77123123
+2|Flavin do pneu|emailruim@gmail.com|771231233|João Silva|joao.silva@email.com|(123) 456-7890
+3|João Silva|joao.silva@email.com|(123) 456-7890
+4|Maria Santos|maria.santos@email.com|(234) 567-8901
+5|Ana Oliveira|ana.oliveira@email.com|(456) 789-0123
+6|Carlos Pereira|carlos.pereira@email.com|(567) 890-123
