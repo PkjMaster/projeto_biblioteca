@@ -2,8 +2,7 @@ from time import strptime,strftime
 from datetime import date
 import os
 
-linha_simples = '-'*45
-linha_composta = "\n"+"-"*45+"\n\n"  # linha pra fazer a formatação bonitinha
+linha_simples = '-'*50 # linha pra fazer a formatação bonitinha
 
 
 def limpar():  # Função pra limpar o terminal e deixar bonitinho
@@ -61,7 +60,7 @@ def cadastro_livro():
     codigo = len(livros)-1
     while True:
         codigo += 1
-        if int(livros[-1][0]) != codigo and int(livros[-1][0]) < codigo:
+        if len(livros)==0 or int(livros[-1][0]) != codigo and int(livros[-1][0]) < codigo:
             limpar()
             titulo = input(
                 f"{linha_simples}\n\nColoque o titulo do livro: ").strip(" ")
@@ -107,7 +106,7 @@ def cadastro_usuario():
     codigo = len(usuarios)-1
     while True:
         codigo += 1
-        if int(usuarios[-1][0]) != codigo and int(usuarios[-1][0]) < codigo:
+        if len(usuarios)==0 or int(usuarios[-1][0]) != codigo and int(usuarios[-1][0]) < codigo :
             limpar()
             nome = input(f"{linha_simples}\n\nColoque o nome do usuario: ").strip(" ")
             limpar()
@@ -135,8 +134,30 @@ def reserva_livro():
     reservas = lista_reserva()
     hoje=date.today()# Pega a data de hoje
     data=hoje.strftime("%d/%m/%Y")# deixa com o modelo 20/06/2006
-    codigo = len(reservas)-1
+    codigo = len(reservas)
     
+    if len(usuarios)==0:
+        input(f"""{linha_simples}
+    ERRO: NENHUM USUÁRIO CADASTRADO
+{linha_simples}             
+    Não foi possivel fazer a operação
+{linha_simples}
+  Aperte qualquer botão para voltar ao menu
+{linha_simples}       
+""")    
+        return
+        
+    if len(livros)==0:
+        input(f"""{linha_simples}
+    ERRO: NENHUM LIVRO CADASTRADO
+{linha_simples}             
+    Não foi possivel fazer a operação
+{linha_simples}
+  Aperte qualquer botão para voltar ao menu
+{linha_simples}       
+""")
+        return
+
     while True:
         codigos_cadastrados_usuarios = []
         codigos_cadastrados_livros = []
@@ -145,7 +166,7 @@ def reserva_livro():
     
         codigo += 1
         # verifica se ja existe algum codigo identico
-        if int(reservas[-1][0]) != codigo and int(reservas[-1][0]) < codigo:
+        if len(reservas)==0 or int(reservas[-1][0]) != codigo and int(reservas[-1][0]) < codigo:
             print(f"{linha_simples}\n\tUsuários Registrados\n{linha_simples}")
             for usuario in usuarios:
                 # Imprime o codigo e o nome dos usuarios cadastrados sendo: usuario[0]=codigo e usuario[1]=nome
@@ -284,7 +305,7 @@ def menu_pesquisar():
     reservas = ["Codigo da Reserva", "Data", "Código do Livro", "Código do Usuário"]
     menu_pesquisa = ["Livros", "Usuários", "Reservas"]
     texto_menu = "Como deseja pesquisar?"
-
+    linha_simples="-"*45
     listas_livros = lista_livro()
     listas_usuarios = lista_usuario()
     listas_reservas = lista_reserva()
@@ -459,7 +480,7 @@ def menu_pesquisar():
             return
         
         resposta = input(
-            f"Deseja realizar outra pesquisa (sim ou não)?\n>").strip().lower()
+            f"{linha_simples}\n  Deseja realizar outra pesquisa (sim ou não)?\n>").strip().lower()
         try:
             if resposta[0] == "n":
                 limpar()
@@ -498,8 +519,8 @@ def menu_listagem():  # função de listagem dos dados
                     print(linha_simples)
             else:
                 limpar()
-                print(f"{linha_simples}\n Não há usuários cadastrados")
-
+                input(f"{linha_simples}\n Não há usuários cadastrados\n{linha_simples}\n  Pressione qualquer botão para voltar ao menu\n{linha_simples}")
+                return
 # listagem de todos os livros:
         elif opt == "2":
             if len(listalivros) > 0:
@@ -510,8 +531,8 @@ def menu_listagem():  # função de listagem dos dados
                     print(linha_simples)
             else:
                 limpar()
-                print(f"{linha_simples}\n Não há livros cadastrados")
-
+                input(f"{linha_simples}\n Não há livros cadastrados\n{linha_simples}\n  Pressione qualquer botão para voltar ao menu\n{linha_simples}")
+                return
 # listagem de todas as reservas:
         elif opt == "3":
             if len(listareservas) > 0:
@@ -522,8 +543,8 @@ def menu_listagem():  # função de listagem dos dados
                     print(linha_simples)
             else:
                 limpar()
-                print(f"{linha_simples}\n Não há reservas salvas")
-
+                input(f"{linha_simples}\n Não há reservas salvas\n{linha_simples}\n  Pressione qualquer botão para voltar ao menu\n{linha_simples}")
+                return
 # listagem de todas as reservas ativas:
         elif opt == '4':
             limpar()
@@ -539,8 +560,8 @@ def menu_listagem():  # função de listagem dos dados
                     criador_listar("reservas", reserva)
                     print(linha_simples)
             else:
-                print(f"{linha_simples}\n Não há reservas ativas no momento")
-
+                input(f"{linha_simples}\n Não há reservas ativas no momento\n{linha_simples}\n  Pressione qualquer botão para voltar ao menu\n{linha_simples}")
+                return
 
 # listagem de todas as reservas finalizadas:
         elif opt == '5':
@@ -557,8 +578,8 @@ def menu_listagem():  # função de listagem dos dados
                         f'{linha_simples}\n\t\tReservas Finalizadas\n{linha_simples}')
                     criador_listar("reservas", reserva)
             else:
-                print(f"{linha_simples}\n Não há reservas ativas no momento")
-
+                input(f"{linha_simples}\n Não há reservas finalizadas no momento\n{linha_simples}\n  Pressione qualquer botão para voltar ao menu\n{linha_simples}")
+                return
         elif opt == "0":
             break
 # Mensagem de erro se o usuário digitar algum valor invalido:
@@ -626,7 +647,7 @@ def menu_alterar():
 # menu para o usuario digitar a opção escolhida:
         opt = criador_menu(lista, "MENU EDITAR")
 
-# listagem de todos os usuários:
+# altera os usuários:
         if opt == "1":
             if len(listausuarios) > 0:
                 limpar()
@@ -680,7 +701,7 @@ def menu_alterar():
                 limpar()
                 print(linha_simples,  "\n Não há usuários cadastrados")
 
-# listagem de todos os livros:
+# altera os livros:
         elif opt == "2":
             if len(listalivros) > 0:
                 limpar()
@@ -721,7 +742,7 @@ def menu_alterar():
                         while ano_novo.isnumeric() == False and len(ano_novo) != 4:
                             limpar()
                             print(
-                                linha_composta, f"Valor invalido!\n{linha_simples}Use o seguinte modelo: YYYY\n{linha_simples}")
+                                f"{linha_simples}\nValor invalido!\n{linha_simples}Use o seguinte modelo: YYYY\n{linha_simples}")
                             ano_novo = input(
                                 "Coloque o ano que o livro foi publicado: ").strip(" ")
                         for livro in listalivros:
@@ -737,7 +758,7 @@ def menu_alterar():
                         while quantidade_novo.isnumeric() == False:
                             limpar()
                             print(
-                                linha_composta, f"Valor invalido!\n{linha_simples}Utilize somente números\n{linha_simples}")
+                                f"{linha_simples}\nValor invalido!\n{linha_simples}Utilize somente números\n{linha_simples}")
                             quantidade_novo = input(
                                 "Escreva a nova quantidade de exemplares: ").strip(" ")
                         for livro in listalivros:
@@ -760,7 +781,7 @@ def menu_alterar():
                 print(linha_simples, "\n Não há livros cadastrados")
 
 
-# listagem de todas as reservas:
+# altera as reservas:
         elif opt == "3":
             if len(listareservas) > 0:
                 limpar()
@@ -785,7 +806,7 @@ def menu_alterar():
                             except ValueError:
                                 limpar()
                                 print(
-                                    linha_composta, "Valor invalido!\nUse o seguinte modelo: 01/01/2000\n")
+                                    f"{linha_simples}\nValor invalido!\nUse o seguinte modelo: 01/01/2000\n")
                                 data_nova = input(
                                     "Escreva a nova data: ").strip(" ")
 
@@ -858,7 +879,7 @@ def menu_alterar():
         elif opt == "0":  # Sai da operação
             break
 
-# Verificando se o usuário deseja realizar outra listagem;
+# Verificando se o usuário deseja alterar outro dado;
         resposta = input(
             f"Deseja fazer outra alteração (sim ou não)?\n>").strip().lower()
         try:
@@ -892,8 +913,8 @@ def devolucao_livro(): # função de devolução de livros reservados
             codigos_de_usuarios_com_reserva_ativa.append(reserva[1])
     
     if verificador == False:
-        input(f"{linha_simples}\n Não há reservas ativas no momento!\n(aperte enter para voltar ao menu)")         
-    
+        input(f"{linha_simples}\n     Não há reservas ativas no momento!\n{linha_simples}\n  Pressione qualquer botão para voltar ao menu\n{linha_simples}")         
+        return
     limpar()
     print(f"{linha_simples}\n\t Usuarios com reservas ativas\n{linha_simples}")
     # lista com os codigos dos usuarios que efetuaram uma reserva
@@ -907,7 +928,7 @@ def devolucao_livro(): # função de devolução de livros reservados
     
     if codigo_usuario not in codigos_de_usuarios_com_reserva_ativa: #verifica se o codigo do livro digitado está cadastrado   
         limpar()
-        input(f"{linha_simples}\n O codigo do usuário digitado não está vinculado a uma reserva!\n(aperte enter para voltar ao menu)")         
+        input(f"{linha_simples}\n O codigo do usuário digitado não está vinculado a uma reserva!\n{linha_simples}\n  Pressione qualquer botão para voltar ao menu\n{linha_simples}")         
         return
 
     limpar()
@@ -924,7 +945,7 @@ def devolucao_livro(): # função de devolução de livros reservados
 >""").strip(" ")
     if codigo_livro not in codigos_de_livros_vinculados_aos_usuarios: #verifica se o codigo do livro digitado está em uma reserva feita pelo usuario
         limpar()
-        input(f"{linha_simples}\nO codigo do livro digitado não está vinculado ao usuário!\n(aperte enter para voltar ao menu)")         
+        input(f"{linha_simples}\nO codigo do livro digitado não está vinculado ao usuário!\n{linha_simples}\n  Pressione qualquer botão para voltar ao menu\n{linha_simples}")         
         return
     
     for livro in listaLivros:
@@ -949,8 +970,8 @@ def devolucao_livro(): # função de devolução de livros reservados
     with open("reservas.txt", "w", encoding="utf8") as arquivo:# joga a lista no arquivo
         arquivo.writelines(reservas_atualizadas)
     input(
-        f"{linha_simples}\n     Operação Finalizada!\n{linha_simples}\n (aperte enter para voltar ao menu)")
-
+        f"{linha_simples}\n     Operação Finalizada!\n{linha_simples}\n  Pressione qualquer botão para voltar ao menu\n{linha_simples}")
+    
 def criador_remover(listas, codigo, listas_atualizadas, arquivo):
         #função para remover itens dos arquivos sendo as listas = os dados do arquivo aonde se deseja retirar um item
         #codigo = O codigo do item que o usuario deseja remover
@@ -964,7 +985,7 @@ def criador_remover(listas, codigo, listas_atualizadas, arquivo):
             codigos_cadastrados.append(lista[0]) # lista com os codigos  cadastrados
         while codigo not in codigos_cadastrados: #verifica se o codigo digitado está cadastrado   
             limpar()
-            input(f"{linha_simples}\nO codigo digitado não está cadastrado!\n(aperte enter para voltar ao menu)")         
+            input(f"{linha_simples}\nO codigo digitado não está cadastrado!\n{linha_simples}\n  Pressione qualquer botão para voltar ao menu\n{linha_simples}")         
             return
         for lista in listas:
             if codigo in lista:
@@ -985,7 +1006,7 @@ def criador_remover(listas, codigo, listas_atualizadas, arquivo):
             verificador = False
         limpar()
         input(
-        f"{linha_simples}\n     Operação Finalizada!\n(aperte enter para voltar ao menu)")    
+        f"{linha_simples}\n     Operação Finalizada!\n{linha_simples}\n  Pressione qualquer botão para voltar ao menu\n{linha_simples}")    
 
 def remover():
     menu=["Livros","Usuários","Reservas"]
@@ -1000,6 +1021,10 @@ def remover():
     opt = criador_menu(menu, "MENU REMOVER")
     if opt == "1":
         limpar()
+        if len(livros)==0:# Verifica se há algum livro cadastrado
+            input(f"{linha_simples}\n\tNão há livros cadastrados\n{linha_simples}\n  Pressione qualquer botão para voltar ao menu\n{linha_simples}")
+            return
+        
         print(f"{linha_simples}\n\t Livros Cadastrados\n{linha_simples}")
         for livro in livros:
             criador_listar("livros", livro)
@@ -1011,6 +1036,10 @@ def remover():
 
     elif opt == "2":
         limpar()
+        if len(usuarios)==0:# Verifica se há algum livrro cadastrado
+            input(f"{linha_simples}\n\tNão há usuários cadastrados\n{linha_simples}\n  Pressione qualquer botão para voltar ao menu\n{linha_simples}")
+            return
+
         print(f"{linha_simples}\n\t Usuarios Cadastrados\n{linha_simples}")
         for usuario in usuarios:
             criador_listar("usuarios", usuario)
@@ -1022,7 +1051,11 @@ def remover():
 
     elif opt == "3":
         limpar()
-        print(f"{linha_simples}\n\t Reservas Cadastrados\n{linha_simples}")
+        if len(usuarios)==0:# Verifica se há alguma reserva efetuada
+            input(f"{linha_simples}\n\tNão há reservas efetuadas\n{linha_simples}\n  Pressione qualquer botão para voltar ao menu\n{linha_simples}")
+            return
+
+        print(f"{linha_simples}\n\t Reservas Efetuadas\n{linha_simples}")
         for reserva in reservas:
             criador_listar("reservas", reserva)
             print(linha_simples)
