@@ -593,10 +593,10 @@ def menu_listagem():  # função de listagem dos dados
                     reserva_finalizada = True
                     finalizadas.append(reserva)
             if reserva_finalizada:
+                print(f'{linha_simples}\n\t\tReservas Finalizadas\n{linha_simples}')
                 for reserva in finalizadas:
-                    print(
-                        f'{linha_simples}\n\t\tReservas Finalizadas\n{linha_simples}')
                     criador_listar("reservas", reserva)
+                    print(linha_simples)
             else:
                 input(f"{linha_simples}\n Não há reservas finalizadas no momento\n{linha_simples}\n  Pressione qualquer botão para voltar ao menu\n{linha_simples}")
                 return
