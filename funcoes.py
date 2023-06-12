@@ -365,16 +365,16 @@ def menu_pesquisar():
             
             elif opt_livros=="4":#ano_publicação
                 ano=False
-                ano_busca = input("Digite o autor do livro que deseja buscar: ").strip(" ")
+                ano_busca = input("Digite o ano de publicação do livro que deseja buscar: ").strip(" ")
                 limpar()
                 for livro in listas_livros:
-                    if ano_busca.lower() in livro[2].lower():#verifica se existe algum livro com esse ano de publicação
+                    if ano_busca.lower() in livro[3].lower():#verifica se existe algum livro com esse ano de publicação
                         if not ano:
                             print(f"{linha_simples}\n\tLivro encontrado!\n"+linha_simples)
                         ano=True
                         criador_listar("livros", livro)
                         print(linha_simples)
-                if not autor:
+                if not ano:
                     limpar()
                     print(f"{linha_simples}\n Não foi encontrado nenhum livro com esse ano de publicação")
                 
